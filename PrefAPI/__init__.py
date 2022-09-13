@@ -1,9 +1,13 @@
 from ursinanetworking import *
 from ursinanetworking.easyursinanetworking import *
+import json
+
+config = json.load(open(os.getcwd() + "\config.json"))
+
+server = UrsinaNetworkingServer(config["ip"], config["port"])
+easy = EasyUrsinaNetworkingServer(server)
 
 
-class Server:
-    def __init__(self, ip, port):
-        self.server = UrsinaNetworkingServer(ip, port)
-        self.easy = EasyUrsinaNetworkingServer(self.server)
-        print(f"PrefAPI > Server was started, address: {ip}:{port}")
+@server.event
+def onClientConnected(Client):
+    print(f"PrefAPI > {Client} connected!")
